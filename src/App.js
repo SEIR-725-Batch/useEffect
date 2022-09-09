@@ -1,24 +1,46 @@
-import logo from './logo.svg';
 import './App.css';
+import { useState, useEffect } from 'react';
 
 function App() {
+  const [color, setColor] = useState(null);
+  const [counter, setCounter] = useState(0);
+  // Only reads useState the first time the component is built
+  // setColor can update the state and read things again
+  console.log(color);
+  
+  const fetchColors = () => {
+    const r = Math.floor(Math.random() * 256);
+    const g = Math.floor(Math.random() * 256);
+    const b = Math.floor(Math.random() * 256);
+    console.log(`r is ${r}, g is ${g}, and b is ${b}`)
+    fetch(`http://www.thecolorapi.com/id?rgb=${r},${g},${b}`)
+        .then(res => res.json())
+        .then(res => {
+            console.log(res)
+            setColor(res)
+        })
+  }
+
+  // React will only run useEffect if it's just built
+  useEffect(() => {
+    fetchColors()
+  }, [])
+  // The second argument stops useEffect from running when the rest of App.js is built
+
+
+
+  // if(color) {
+  //   return (<img src={color.image.bare} alt={color.name.value} />)
+  // } else {
+  //   return "Loading"
+  // }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <h1>Hello World</h1>
+      {color ? <img src={color.image.bare} alt={color.name.value} /> : <h2>Loading</h2>}
+      {/* <button onClick={() => setCounter(counter = counter + 1)}>Click Me</button> */}
+    </>
   );
 }
 
