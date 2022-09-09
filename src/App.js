@@ -24,10 +24,14 @@ function App() {
   // React will only run useEffect if it's just built
   useEffect(() => {
     fetchColors()
-  }, [])
+  }, [counter])
+
+  const updateCounter = () => {
+    // const updatedTotal = counter + 1;
+    // console.log(`The updatedTotal is ${updatedTotal}`);
+    setCounter(counter + 1);
+  }
   // The second argument stops useEffect from running when the rest of App.js is built
-
-
 
   // if(color) {
   //   return (<img src={color.image.bare} alt={color.name.value} />)
@@ -39,7 +43,8 @@ function App() {
     <>
       <h1>Hello World</h1>
       {color ? <img src={color.image.bare} alt={color.name.value} /> : <h2>Loading</h2>}
-      {/* <button onClick={() => setCounter(counter = counter + 1)}>Click Me</button> */}
+      <button onClick={() => {setCounter(counter + 1)}}>Click Me</button>
+      <h3>Counter: {counter}</h3>
     </>
   );
 }
